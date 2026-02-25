@@ -1,6 +1,4 @@
-
-// testFn this is a complex function that tests various components
-export const service = {
+export const sudokuService = {
 
 	// the cells with a number will be converted to 2^1, 2^2, ... , 2^9
 	// cells with no number will be 0 - they're conversion will happen later

@@ -1,6 +1,7 @@
 const jatester = {
 
 	outputFn : (msg) => console.log(msg),
+	
 	setOutputFn : (fn) => {
 		this.outputFn = fn;
 	},
@@ -14,7 +15,19 @@ const jatester = {
 				}				
 			}
 			return { index:0, result: true };
-		}
+		},
+
+		compare2DArrays: (actual, expected) => {
+			for(let i = 0; i < actual.length; i++){
+
+				const compare = jatester.fn.compareArrays( actual[i], expected[i] );
+
+				if(!compare.result){
+					return { row: i, col: compare.index, result: false };
+				}			
+			}
+			return { row: 0, col: 0, result: true };
+		},
 	},
 
 	assert : {
@@ -36,10 +49,10 @@ const jatester = {
 			if(!expected) jatester.outputFn("expected is falsy");
 			if(!actual) jatester.outputFn("actual is falsy");
 
-			const {i, compare} = jatester.fn.compareArrays(actual, expected);
+			const compare = jatester.fn.compareArrays(actual, expected);
 
-			if (compare){
-				jatester.outputFn(`false, expected ${expected[i]} not equal to ${actual[i]} at index : ${i} ${msg}`);
+			if (!compare.result){
+				jatester.outputFn(`false, expected ${expected[compare.index]} not equal to ${actual[compare.index]} at index : ${compare.index} ${msg}`);
 			} else {
 				jatester.outputFn(`true, expected ${expected} equals ${actual} ${msg}`);
 			}
@@ -50,12 +63,12 @@ const jatester = {
 			if(!expected) jatester.outputFn("expected is falsy");
 			if(!actual) jatester.outputFn("actual is falsy");
 
-			const {i, compare} = jatester.fn.compareArrays(actual, expected);
+			const compare = jatester.fn.compare2DArrays(actual, expected);
 
-			if (compare){
-				jatester.outputFn(`false, expected ${expected[i]} not equal to ${actual[i]} at index : ${i} ${msg}`);
+			if (!compare.result){
+				jatester.outputFn(`false, expected ${expected[compare.row]} not equal to ${actual[compare.row]} at row : ${compare.row}, col : ${compare.col} ${msg}`);
 			} else {
-				jatester.outputFn(`true, expected ${expected} equals ${actual} ${msg}`);
+				jatester.outputFn(`true, expected equals actual ${msg}`);
 			}
 		},
 	}

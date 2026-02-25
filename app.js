@@ -1,20 +1,15 @@
-import { service } from './service.js';
+import { sudokuService as service } from './service.js';
 import { assert } from './jatester.js';
-import { goodBoard, badboard } from './boards.js';
+import { goodBoard, badboard, goodBinBrd, addedGoodBrdRows, addedGoodBrdCols, addedGoodBrdSqrs } from './boards.js';
 
 console.log("lets go...");
 
 
-//let outFn = console.log;
-//assert(outFn);
+assert.compare2DArrays(service.binaryBoard(goodBoard), goodBinBrd);
 
-assert.equals("a","a");
-assert.equals("a","z");
+const addRowsColsSqrs = service.initRowsColsSqrs(goodBinBrd);
 
-let a = ["5","3",".",".","7",".",".",".","."];
-let b = ["5","3",".",".","7","8",".",".","."];
-let c = ["5","3",".",".","7",".",".",".","."];
-assert.compareArrays(a, b);
-assert.compareArrays(a, c);
-
+assert.compareArrays(addRowsColsSqrs.rows, addedGoodBrdRows);
+assert.compareArrays(addRowsColsSqrs.cols, addedGoodBrdCols);
+assert.compareArrays(addRowsColsSqrs.sqrs, addedGoodBrdSqrs);
 
