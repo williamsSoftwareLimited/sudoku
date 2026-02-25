@@ -1,12 +1,13 @@
-import service from './service.js';
-import jatester from './jatester.js';
+import { service } from './service.js';
+import { assert } from './jatester.js';
 import { goodBoard, badboard } from './boards.js';
 
 console.log("lets go...");
 
 
-let debugFn;// = console.log;
-const testFn = jatester(goodBoard);
+//let outFn = console.log;
+//assert(outFn);
 
-const sudoku = service(testFn);
+assert.equals("a","a");
+
 

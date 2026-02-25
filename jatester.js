@@ -1,12 +1,22 @@
-export default function jatester(board){
-	let innerBrd = [...board]; // don't damage the board
+const jatester = {
 
-	function test(func){
-		const newBoard = func(innerBrd);
-		console.log(newBoard || 'nothing returned');
-		innerBrd = newBoard;
+	outputFn : (msg) => console.log(msg),
+	setOutputFn : (fn) => {
+		this.outputFn = fn;
+	},
+
+	assert : {
+
+		equals : (actual, expected, msg) => {
+			msg = msg || "";
+			if(!expected) jatester.outputFn("expected is falsy");
+			if(!actual) jatester.outputFn("actual is falsy");
+
+			if (expected === actual) {
+				jatester.outputFn(`expected ${expected} equals `);
+			}
+		}
 	}
-	return({
-		test
-	})
 }
+
+export const assert = jatester.assert;

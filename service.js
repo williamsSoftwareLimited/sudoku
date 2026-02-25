@@ -1,14 +1,12 @@
 
 // testFn this is a complex function that tests various components
-export default function(testFun) {
-
-	const testFn = testFun || function(){};
+export const service = {
 
 	// the cells with a number will be converted to 2^1, 2^2, ... , 2^9
 	// cells with no number will be 0 - they're conversion will happen later
 	// they'll be the row, col, sqr xor'd 
 	// leaving the binary equivalent of the missing numbers
-	function binaryBoard(board){
+	binaryBoard : (board) => {
 		let binBrd = [];
 		for(let r = 0; r < board.length; r++) {
 			binBrd[r]=[];
@@ -22,13 +20,13 @@ export default function(testFun) {
 			}
 		}
 		return binBrd;
-	}
+	},
 
 	// this is expect a binary style board
 	// with ZERO for the cells not worked out yet
 	// it returns all the rows, cols and sqrs as a tuple
 	// they are the init board just added up
-	function initRowsColsSqrs(binBrd) {
+	initRowsColsSqrs : (binBrd) => {
 		let rows = [];
 		let cols = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
 		let sqrs = [ 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
@@ -43,11 +41,4 @@ export default function(testFun) {
 		}
 		return ({rows, cols, sqrs});
 	}
-
-	// all tests below
-	testFn.test(binaryBoard);
-	testFn.test(initRowsColsSqrs);
-
-	return ({
-	});
 }
