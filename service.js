@@ -38,5 +38,41 @@ export const sudokuService = {
 			}
 		}
 		return ({rows, cols, sqrs});
+	},
+
+	// returns a completed board in binary style
+	// each cells is the rest of the binary digits
+	// ie if for cell 1,1; rows[1] = 1001100010 (610); cols[1] = 1001001000 (584); sqrs[0] = 1101101000 (872)
+	// you have to 'or' these together and subtract from 1022 = 1111111110 (nb 2^0 isn't being used)
+	// or'd together gives 1001100010
+	//                  or 1001001000
+	//                  or 1101101000
+	//                     ----------
+	//                     1101101010 (874)
+	//    			   xor 1111111110 (1022)
+	//                     0010010100 (148) or 1022-874=148
+	fullBinaryBoard : (board) => {
+		const binaryBoard = sudokuService.binaryBoard(board);
+		const rowsColsSqrs = sudokuService.initRowsColsSqrs(binaryBoard);
+		let changeCount = 0;
+
+		for(let r = 0; r < 9; r++){
+
+			for(let c = 0; c < 9; c++){
+				if (binaryBoard[r][c] === 0){ // this may have to be changed to a function that also looks for singles ie 2,4,8,16,...
+
+					const s = Math.floor(c/3) + Math.floor(r/3)*3;
+					const ordNos = rowsColsSqrs.rows[r] | rowsColsSqrs.cols[c] | rowsColsSqrs.sqrs[s];
+					binaryBoard[r][c] = 1022 - ordNos;
+					changeCount++;
+				}
+			}
+		}
+		return { binaryBoard, changeCount };
 	}
+
+
 }
+
+
+
